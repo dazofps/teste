@@ -1,9 +1,14 @@
-// Esse script permite que o app seja instalado e funcione offline
-self.addEventListener('install', (e) => {
-  console.log('Service Worker instalado!');
+const CACHE_NAME = 'gamatel-v1';
+const assets = ['/'];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(assets))
+  );
 });
 
-self.addEventListener('fetch', (e) => {
-  // Necessário para o Chrome validar o PWA
-  e.respondWith(fetch(e.request));
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(res => res || fetch(event.request))
+  );
 });
