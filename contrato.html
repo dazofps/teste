@@ -27,7 +27,7 @@
   ];
   const manifest={
     name:"Contratos Gamatel",short_name:"Gamatel",
-    description:"Gestão de Contratos",
+    description:"GestÃ£o de Contratos",
     start_url:"./",display:"standalone",
     background_color:"#0a1628",theme_color:"#2563eb",
     orientation:"any",icons
@@ -47,7 +47,7 @@ self.addEventListener('install',e=>self.skipWaiting());
 self.addEventListener('activate',e=>self.clients.claim());
 self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return;
-  e.respondWith(fetch(e.request).catch(()=>new Response('Offline - abra quando tiver conexão',{headers:{'Content-Type':'text/plain'}})));
+  e.respondWith(fetch(e.request).catch(()=>new Response('Offline - abra quando tiver conexÃ£o',{headers:{'Content-Type':'text/plain'}})));
 });`;
     try{
       const blob=new Blob([sw],{type:'application/javascript'});
@@ -399,7 +399,7 @@ textarea.finput{resize:vertical;min-height:82px;line-height:1.55}
   td,th{color:#000;border-bottom:1px solid #eee}
 }
 
-/* ── SYNC STATUS ── */
+/* â”€â”€ SYNC STATUS â”€â”€ */
 .sync-pill{
   display:inline-flex;align-items:center;gap:5px;
   font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.04em;
@@ -431,7 +431,7 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
     <input type="file" id="logo-file" accept="image/*" style="display:none" onchange="swapLogo(event)"/>
     <div>
       <div class="brand-name">Contratos Gamatel</div>
-      <div class="brand-tag">Gestão de Contratos</div>
+      <div class="brand-tag">GestÃ£o de Contratos</div>
     </div>
   </div>
   <div class="h-actions">
@@ -451,8 +451,8 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Instalar App
     </button>
-    <span id="sync-status" class="sync-pill" title="Status de sincronização">
-      <span class="sync-ico">🔴</span><span>Sync off</span>
+    <span id="sync-status" class="sync-pill" title="Status de sincronizaÃ§Ã£o">
+      <span class="sync-ico">ðŸ”´</span><span>Sync off</span>
     </span>
     <button class="btn btn-primary" onclick="openAdd()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -469,7 +469,7 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
   </button>
   <button class="tab" id="tab-reaj" onclick="switchTab('reaj')">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-    Aniversário / Reajuste
+    AniversÃ¡rio / Reajuste
     <span class="badge" id="br">0</span>
   </button>
   <button class="tab" id="tab-estoque" onclick="switchTab('estoque')">
@@ -479,7 +479,7 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
   </button>
   <button class="tab" id="tab-os" onclick="switchTab('os')">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-    Ordens de Serviço
+    Ordens de ServiÃ§o
     <span class="badge" id="bos">0</span>
   </button>
   <button class="tab" id="tab-forn" onclick="switchTab('forn')">
@@ -500,26 +500,26 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
   <div class="tab-section active" id="sec-venc">
     <div class="kpis" id="kpis-venc"></div>
     <div class="legend">
-      <div class="legend-item"><div class="ldot" style="background:var(--danger)"></div>Vencido ou ≤ 30 dias</div>
-      <div class="legend-item"><div class="ldot" style="background:var(--warn)"></div>31 – 60 dias</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--danger)"></div>Vencido ou â‰¤ 30 dias</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--warn)"></div>31 â€“ 60 dias</div>
       <div class="legend-item"><div class="ldot" style="background:var(--ok)"></div>Mais de 60 dias</div>
     </div>
     <div class="toolbar">
       <div class="search-wrap">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input class="search-input" id="sv" placeholder="Buscar cliente, CNPJ ou contrato…" oninput="renderVenc()"/>
+        <input class="search-input" id="sv" placeholder="Buscar cliente, CNPJ ou contratoâ€¦" oninput="renderVenc()"/>
       </div>
       <select class="sel" id="fv" onchange="renderVenc()">
         <option value="">Todos</option>
-        <option value="danger">Crítico (≤ 30 dias)</option>
-        <option value="warn">Atenção (31–60 dias)</option>
+        <option value="danger">CrÃ­tico (â‰¤ 30 dias)</option>
+        <option value="warn">AtenÃ§Ã£o (31â€“60 dias)</option>
         <option value="ok">Em dia (&gt; 60 dias)</option>
         <option value="expired">Vencidos</option>
       </select>
     </div>
 <div class="bulk-bar" id="bulk-venc">
       <span class="bulk-count" id="bulk-venc-count">0 selecionados</span>
-      <button class="btn btn-ghost" onclick="clearSelection('venc')" style="padding:6px 12px;font-size:12px">Limpar seleção</button>
+      <button class="btn btn-ghost" onclick="clearSelection('venc')" style="padding:6px 12px;font-size:12px">Limpar seleÃ§Ã£o</button>
       <button class="btn" onclick="deleteSelected('venc')" style="background:var(--danger-bg);color:var(--danger);border:1px solid rgba(239,68,68,.3);padding:6px 14px;font-size:12px">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
         Excluir selecionados
@@ -530,16 +530,16 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
         <table id="tbl-venc">
           <thead><tr>
             <th class="cb-cell"><input type="checkbox" id="chk-all-venc" onchange="toggleAllVenc(this)" title="Selecionar todos"/></th>
-            <th id="th-vc" onclick="doSort('client')">Cliente <span class="sort-arrow">↕</span></th>
+            <th id="th-vc" onclick="doSort('client')">Cliente <span class="sort-arrow">â†•</span></th>
             <th>CNPJ</th><th>Contrato</th>
-            <th id="th-vv" onclick="doSort('venc')" class="th-active">Vencimento <span class="sort-arrow">↕</span></th>
-            <th>Status</th><th>Dias restantes</th><th>Observações</th><th></th>
+            <th id="th-vv" onclick="doSort('venc')" class="th-active">Vencimento <span class="sort-arrow">â†•</span></th>
+            <th>Status</th><th>Dias restantes</th><th>ObservaÃ§Ãµes</th><th></th>
           </tr></thead>
           <tbody id="body-venc"></tbody>
         </table>
       </div>
       <div id="empty-venc" class="empty" style="display:none">
-        <div class="empty-ico">📋</div>
+        <div class="empty-ico">ðŸ“‹</div>
         <div class="empty-title">Nenhum contrato encontrado</div>
         <div class="empty-sub">Importe uma planilha ou adicione contratos manualmente.</div>
       </div>
@@ -550,25 +550,25 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
   <div class="tab-section" id="sec-reaj">
     <div class="kpis" id="kpis-reaj"></div>
     <div class="legend">
-      <div class="legend-item"><div class="ldot" style="background:var(--danger)"></div>Reajuste pendente (aniversário passou)</div>
-      <div class="legend-item"><div class="ldot" style="background:var(--warn)"></div>Aniversário em até 30 dias</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--danger)"></div>Reajuste pendente (aniversÃ¡rio passou)</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--warn)"></div>AniversÃ¡rio em atÃ© 30 dias</div>
       <div class="legend-item"><div class="ldot" style="background:var(--ok)"></div>Em dia</div>
     </div>
     <div class="toolbar">
       <div class="search-wrap">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input class="search-input" id="sr" placeholder="Buscar cliente, CNPJ ou contrato…" oninput="renderReaj()"/>
+        <input class="search-input" id="sr" placeholder="Buscar cliente, CNPJ ou contratoâ€¦" oninput="renderReaj()"/>
       </div>
       <select class="sel" id="fr" onchange="renderReaj()">
         <option value="">Todos</option>
         <option value="danger">Reajuste pendente</option>
-        <option value="warn">Aniversário próximo (≤ 30 dias)</option>
+        <option value="warn">AniversÃ¡rio prÃ³ximo (â‰¤ 30 dias)</option>
         <option value="ok">Em dia</option>
       </select>
     </div>
 <div class="bulk-bar" id="bulk-reaj">
       <span class="bulk-count" id="bulk-reaj-count">0 selecionados</span>
-      <button class="btn btn-ghost" onclick="clearSelection('reaj')" style="padding:6px 12px;font-size:12px">Limpar seleção</button>
+      <button class="btn btn-ghost" onclick="clearSelection('reaj')" style="padding:6px 12px;font-size:12px">Limpar seleÃ§Ã£o</button>
       <button class="btn" onclick="deleteSelected('reaj')" style="background:var(--danger-bg);color:var(--danger);border:1px solid rgba(239,68,68,.3);padding:6px 14px;font-size:12px">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
         Excluir selecionados
@@ -579,16 +579,16 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
         <table id="tbl-reaj">
           <thead><tr>
             <th class="cb-cell"><input type="checkbox" id="chk-all-reaj" onchange="toggleAllReaj(this)" title="Selecionar todos"/></th>
-            <th id="th-rc" onclick="doSort('client')">Cliente <span class="sort-arrow">↕</span></th>
+            <th id="th-rc" onclick="doSort('client')">Cliente <span class="sort-arrow">â†•</span></th>
             <th>CNPJ</th><th>Contrato</th>
-            <th id="th-ra" onclick="doSort('aniv')" class="th-active">Aniv. Reajuste <span class="sort-arrow">↕</span></th>
-            <th>Próximo Aniversário</th><th>Status</th><th>Observações</th><th></th>
+            <th id="th-ra" onclick="doSort('aniv')" class="th-active">Aniv. Reajuste <span class="sort-arrow">â†•</span></th>
+            <th>PrÃ³ximo AniversÃ¡rio</th><th>Status</th><th>ObservaÃ§Ãµes</th><th></th>
           </tr></thead>
           <tbody id="body-reaj"></tbody>
         </table>
       </div>
       <div id="empty-reaj" class="empty" style="display:none">
-        <div class="empty-ico">🔄</div>
+        <div class="empty-ico">ðŸ”„</div>
         <div class="empty-title">Nenhum contrato encontrado</div>
         <div class="empty-sub">Importe uma planilha ou adicione contratos manualmente.</div>
       </div>
@@ -597,12 +597,12 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
 
 </main>
 
-  <!-- ══ ESTOQUE ══ -->
+  <!-- â•â• ESTOQUE â•â• -->
   <div class="tab-section" id="sec-estoque">
     <div class="toolbar">
       <div class="search-wrap">
         <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="q-estoque" class="search" placeholder="Buscar produto, código..." oninput="renderEstoque()"/>
+        <input id="q-estoque" class="search" placeholder="Buscar produto, cÃ³digo..." oninput="renderEstoque()"/>
       </div>
     </div>
     <div class="bulk-bar" id="bulk-estoque">
@@ -618,27 +618,27 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
         <table id="tbl-estoque">
           <thead><tr>
             <th class="cb-cell"><input type="checkbox" id="chk-all-estoque" onchange="toggleAllExtra(this,'estoque')" title="Selecionar todos"/></th>
-            <th>Código</th><th>Produto / Descrição</th><th>Categoria</th>
-            <th>Qtd.</th><th>Qtd. Mínima</th><th>Localização</th><th>Observações</th><th></th>
+            <th>CÃ³digo</th><th>Produto / DescriÃ§Ã£o</th><th>Categoria</th>
+            <th>Qtd.</th><th>Qtd. MÃ­nima</th><th>LocalizaÃ§Ã£o</th><th>ObservaÃ§Ãµes</th><th></th>
           </tr></thead>
           <tbody id="body-estoque"></tbody>
         </table>
       </div>
       <div id="empty-estoque" class="empty" style="display:none">
-        <div class="empty-ico">📦</div>
+        <div class="empty-ico">ðŸ“¦</div>
         <div class="empty-title">Nenhum item no estoque</div>
-        <div class="empty-sub">Adicione itens clicando no botão abaixo.</div>
+        <div class="empty-sub">Adicione itens clicando no botÃ£o abaixo.</div>
       </div>
     </div>
-    <button class="fab" onclick="openAddExtra('estoque')" title="Adicionar item">＋</button>
+    <button class="fab" onclick="openAddExtra('estoque')" title="Adicionar item">ï¼‹</button>
   </div>
 
-  <!-- ══ ORDENS DE SERVIÇO ══ -->
+  <!-- â•â• ORDENS DE SERVIÃ‡O â•â• -->
   <div class="tab-section" id="sec-os">
     <div class="toolbar">
       <div class="search-wrap">
         <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="q-os" class="search" placeholder="Buscar O.S., cliente, técnico..." oninput="renderOS()"/>
+        <input id="q-os" class="search" placeholder="Buscar O.S., cliente, tÃ©cnico..." oninput="renderOS()"/>
       </div>
     </div>
     <div class="bulk-bar" id="bulk-os">
@@ -654,22 +654,22 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
         <table id="tbl-os">
           <thead><tr>
             <th class="cb-cell"><input type="checkbox" id="chk-all-os" onchange="toggleAllExtra(this,'os')" title="Selecionar todos"/></th>
-            <th>Nº O.S.</th><th>Cliente</th><th>Técnico</th>
-            <th>Abertura</th><th>Previsão</th><th>Status</th><th>Descrição</th><th></th>
+            <th>NÂº O.S.</th><th>Cliente</th><th>TÃ©cnico</th>
+            <th>Abertura</th><th>PrevisÃ£o</th><th>Status</th><th>DescriÃ§Ã£o</th><th></th>
           </tr></thead>
           <tbody id="body-os"></tbody>
         </table>
       </div>
       <div id="empty-os" class="empty" style="display:none">
-        <div class="empty-ico">🔧</div>
-        <div class="empty-title">Nenhuma ordem de serviço</div>
-        <div class="empty-sub">Adicione uma O.S. clicando no botão abaixo.</div>
+        <div class="empty-ico">ðŸ”§</div>
+        <div class="empty-title">Nenhuma ordem de serviÃ§o</div>
+        <div class="empty-sub">Adicione uma O.S. clicando no botÃ£o abaixo.</div>
       </div>
     </div>
-    <button class="fab" onclick="openAddExtra('os')" title="Nova O.S.">＋</button>
+    <button class="fab" onclick="openAddExtra('os')" title="Nova O.S.">ï¼‹</button>
   </div>
 
-  <!-- ══ FORNECEDORES ══ -->
+  <!-- â•â• FORNECEDORES â•â• -->
   <div class="tab-section" id="sec-forn">
     <div class="toolbar">
       <div class="search-wrap">
@@ -691,21 +691,21 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
           <thead><tr>
             <th class="cb-cell"><input type="checkbox" id="chk-all-forn" onchange="toggleAllExtra(this,'forn')" title="Selecionar todos"/></th>
             <th>Fornecedor</th><th>CNPJ</th><th>Contato</th>
-            <th>Telefone</th><th>E-mail</th><th>Categoria</th><th>Observações</th><th></th>
+            <th>Telefone</th><th>E-mail</th><th>Categoria</th><th>ObservaÃ§Ãµes</th><th></th>
           </tr></thead>
           <tbody id="body-forn"></tbody>
         </table>
       </div>
       <div id="empty-forn" class="empty" style="display:none">
-        <div class="empty-ico">🚚</div>
+        <div class="empty-ico">ðŸšš</div>
         <div class="empty-title">Nenhum fornecedor cadastrado</div>
-        <div class="empty-sub">Adicione fornecedores clicando no botão abaixo.</div>
+        <div class="empty-sub">Adicione fornecedores clicando no botÃ£o abaixo.</div>
       </div>
     </div>
-    <button class="fab" onclick="openAddExtra('forn')" title="Adicionar fornecedor">＋</button>
+    <button class="fab" onclick="openAddExtra('forn')" title="Adicionar fornecedor">ï¼‹</button>
   </div>
 
-  <!-- ══ CLIENTES ══ -->
+  <!-- â•â• CLIENTES â•â• -->
   <div class="tab-section" id="sec-cli">
     <div class="toolbar">
       <div class="search-wrap">
@@ -727,21 +727,21 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
           <thead><tr>
             <th class="cb-cell"><input type="checkbox" id="chk-all-cli" onchange="toggleAllExtra(this,'cli')" title="Selecionar todos"/></th>
             <th>Cliente</th><th>CNPJ / CPF</th><th>Contato</th>
-            <th>Telefone</th><th>E-mail</th><th>Cidade / UF</th><th>Observações</th><th></th>
+            <th>Telefone</th><th>E-mail</th><th>Cidade / UF</th><th>ObservaÃ§Ãµes</th><th></th>
           </tr></thead>
           <tbody id="body-cli"></tbody>
         </table>
       </div>
       <div id="empty-cli" class="empty" style="display:none">
-        <div class="empty-ico">👥</div>
+        <div class="empty-ico">ðŸ‘¥</div>
         <div class="empty-title">Nenhum cliente cadastrado</div>
-        <div class="empty-sub">Adicione clientes clicando no botão abaixo.</div>
+        <div class="empty-sub">Adicione clientes clicando no botÃ£o abaixo.</div>
       </div>
     </div>
-    <button class="fab" onclick="openAddExtra('cli')" title="Adicionar cliente">＋</button>
+    <button class="fab" onclick="openAddExtra('cli')" title="Adicionar cliente">ï¼‹</button>
   </div>
 
-<!-- MODAL GENÉRICO DAS NOVAS ABAS -->
+<!-- MODAL GENÃ‰RICO DAS NOVAS ABAS -->
 <div class="overlay" id="ov-extra">
   <div class="modal" style="max-width:540px">
     <div class="modal-head">
@@ -749,7 +749,7 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
         <div class="modal-title" id="extra-modal-title">Adicionar</div>
         <div class="modal-sub" id="extra-modal-sub"></div>
       </div>
-      <button class="mclose" onclick="closeOv('ov-extra')">✕</button>
+      <button class="mclose" onclick="closeOv('ov-extra')">âœ•</button>
     </div>
     <div class="modal-body" id="extra-modal-body"></div>
     <div class="modal-foot">
@@ -765,16 +765,16 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
   <div class="modal" style="max-width:480px">
     <div class="modal-head">
       <div>
-        <div class="modal-title">☁️ Banco Compartilhado</div>
+        <div class="modal-title">â˜ï¸ Banco Compartilhado</div>
         <div class="modal-sub">Configure o JSONBin.io para que todos acessem os mesmos contratos.</div>
       </div>
-      <button class="mclose" onclick="closeOv('ov-sync')">✕</button>
+      <button class="mclose" onclick="closeOv('ov-sync')">âœ•</button>
     </div>
     <div class="modal-body">
       <div style="background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.25);border-radius:8px;padding:14px 16px;margin-bottom:16px;font-size:12.5px;line-height:1.7;color:var(--text2)">
-        <strong style="color:var(--blue2)">Como configurar (grátis):</strong><br>
-        1. Acesse <a href="https://jsonbin.io" target="_blank" style="color:var(--blue2)">jsonbin.io</a> e crie uma conta grátis<br>
-        2. Clique em <strong style="color:var(--text)">New Bin</strong> → cole <code style="color:var(--gold)">{"contracts":[]}</code> → salve<br>
+        <strong style="color:var(--blue2)">Como configurar (grÃ¡tis):</strong><br>
+        1. Acesse <a href="https://jsonbin.io" target="_blank" style="color:var(--blue2)">jsonbin.io</a> e crie uma conta grÃ¡tis<br>
+        2. Clique em <strong style="color:var(--text)">New Bin</strong> â†’ cole <code style="color:var(--gold)">{"contracts":[]}</code> â†’ salve<br>
         3. Copie o <strong style="color:var(--text)">BIN ID</strong> (aparece na URL)<br>
         4. Em <strong style="color:var(--text)">API Keys</strong>, crie uma Master Key<br>
         5. Cole abaixo e clique em Salvar
@@ -788,7 +788,7 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
         <input class="finput" id="sync-api-key" placeholder="ex: $2a$10$..." type="password"/>
       </div>
       <div style="font-size:11.5px;color:var(--text2);margin-top:8px">
-        🔒 Suas chaves ficam salvas apenas neste dispositivo (localStorage). Não são enviadas a nenhum servidor além do JSONBin.
+        ðŸ”’ Suas chaves ficam salvas apenas neste dispositivo (localStorage). NÃ£o sÃ£o enviadas a nenhum servidor alÃ©m do JSONBin.
       </div>
     </div>
     <div class="modal-foot" style="justify-content:space-between">
@@ -803,22 +803,22 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
     </div>
   </div>
 </div>
-<button class="fab" onclick="openAdd()">＋</button>
+<button class="fab" onclick="openAdd()">ï¼‹</button>
 
 <!-- MODAL IMPORTAR -->
 <div class="overlay" id="ov-imp">
   <div class="modal" style="max-width:470px">
     <div class="modal-head">
       <div><div class="modal-title">Importar Planilha</div><div class="modal-sub">Carregue um CSV ou Excel (.xlsx) com os contratos.</div></div>
-      <button class="mclose" onclick="closeOv('ov-imp')">✕</button>
+      <button class="mclose" onclick="closeOv('ov-imp')">âœ•</button>
     </div>
     <div class="modal-body">
       <div class="drop-zone" id="dz" onclick="document.getElementById('fin').click()"
            ondragover="event.preventDefault();this.classList.add('drag')"
            ondragleave="this.classList.remove('drag')" ondrop="onDrop(event)">
-        <div class="dico">📂</div>
+        <div class="dico">ðŸ“‚</div>
         <div class="dtxt">Arraste o arquivo aqui ou clique para selecionar</div>
-        <div class="dhint">CSV ou XLSX — máx. 10 MB</div>
+        <div class="dhint">CSV ou XLSX â€” mÃ¡x. 10 MB</div>
       </div>
       <input type="file" id="fin" accept=".csv,.xlsx,.xls" style="display:none" onchange="onFSel(event)"/>
       <div class="fmt-box">
@@ -836,7 +836,7 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
   <div class="modal">
     <div class="modal-head">
       <div><div class="modal-title" id="add-title">Novo Contrato</div><div class="modal-sub">Preencha os dados do contrato.</div></div>
-      <button class="mclose" onclick="closeOv('ov-add')">✕</button>
+      <button class="mclose" onclick="closeOv('ov-add')">âœ•</button>
     </div>
     <div class="modal-body">
       <div class="fg">
@@ -845,15 +845,15 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
       </div>
       <div class="frow">
         <div class="fg"><label class="flabel">CNPJ</label><input class="finput" id="fcnpj" placeholder="00.000.000/0001-00"/></div>
-        <div class="fg"><label class="flabel">Nº Contrato</label><input class="finput" id="fnum" placeholder="Ex: 2024-001"/></div>
+        <div class="fg"><label class="flabel">NÂº Contrato</label><input class="finput" id="fnum" placeholder="Ex: 2024-001"/></div>
       </div>
       <div class="frow">
-        <div class="fg"><label class="flabel">Aniversário de Reajuste *</label><input class="finput" id="faniv" type="date"/></div>
+        <div class="fg"><label class="flabel">AniversÃ¡rio de Reajuste *</label><input class="finput" id="faniv" type="date"/></div>
         <div class="fg"><label class="flabel">Data de Vencimento *</label><input class="finput" id="fvenc" type="date"/></div>
       </div>
       <div class="fg">
-        <label class="flabel">Observações</label>
-        <textarea class="finput" id="fobs" placeholder="Notas, lembretes ou informações adicionais…"></textarea>
+        <label class="flabel">ObservaÃ§Ãµes</label>
+        <textarea class="finput" id="fobs" placeholder="Notas, lembretes ou informaÃ§Ãµes adicionaisâ€¦"></textarea>
       </div>
     </div>
     <div class="modal-foot">
@@ -871,7 +871,7 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-// ── STATE ──────────────────────────────────────────────────────
+// â”€â”€ STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let db = (()=>{
   try{
     const raw=JSON.parse(localStorage.getItem('cd3')||'[]');
@@ -885,7 +885,7 @@ function saveDB(){ localStorage.setItem('cd3', JSON.stringify(db.map ? db.map(c=
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// ── DATE UTILS ────────────────────────────────────────────────
+// â”€â”€ DATE UTILS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function parseDate(v){
   if(!v) return null;
   if(v instanceof Date) return isNaN(v.getTime())?null:v;
@@ -895,7 +895,7 @@ function parseDate(v){
   if(/^\d{4}-\d{2}-\d{2}/.test(s)){ const d=new Date(s+'T00:00:00'); return isNaN(d.getTime())?null:d; }
   return null;
 }
-function fmtD(d){ return d ? d.toLocaleDateString('pt-BR') : '—'; }
+function fmtD(d){ return d ? d.toLocaleDateString('pt-BR') : 'â€”'; }
 function diff(d){ return d ? Math.round((d.getTime()-TODAY.getTime())/86400000) : null; }
 function nextAniv(d){
   if(!d) return null;
@@ -905,22 +905,22 @@ function nextAniv(d){
 }
 function toInput(d){ return d ? d.toISOString().slice(0,10) : ''; }
 
-// ── STATUS ────────────────────────────────────────────────────
+// â”€â”€ STATUS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function stVenc(days){
   if(days===null) return{p:'pill-grey',l:'Sem data',lv:'none',d:'grey'};
   if(days<0)      return{p:'pill-red',l:'Vencido',lv:'danger',d:'red'};
-  if(days<=30)    return{p:'pill-red',l:'Crítico',lv:'danger',d:'red'};
-  if(days<=60)    return{p:'pill-amber',l:'Atenção',lv:'warn',d:'amber'};
+  if(days<=30)    return{p:'pill-red',l:'CrÃ­tico',lv:'danger',d:'red'};
+  if(days<=60)    return{p:'pill-amber',l:'AtenÃ§Ã£o',lv:'warn',d:'amber'};
   return{p:'pill-green',l:'Em dia',lv:'ok',d:'green'};
 }
 function stReaj(days){
   if(days===null)  return{p:'pill-grey',l:'Sem data',lv:'none'};
   if(days>330)     return{p:'pill-red',l:'Reajuste pendente',lv:'danger'};
-  if(days<=30)     return{p:'pill-amber',l:'Aniversário próximo',lv:'warn'};
+  if(days<=30)     return{p:'pill-amber',l:'AniversÃ¡rio prÃ³ximo',lv:'warn'};
   return{p:'pill-green',l:'Em dia',lv:'ok'};
 }
 
-// ── TABS ──────────────────────────────────────────────────────
+// â”€â”€ TABS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function switchTab(t){
   document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
   document.querySelectorAll('.tab-section').forEach(e=>e.classList.remove('active'));
@@ -931,7 +931,7 @@ function switchTab(t){
   if(['estoque','os','forn','cli'].includes(t)) renderExtra(t);
 }
 
-// ── SORT ──────────────────────────────────────────────────────
+// â”€â”€ SORT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function doSort(k){
   sortKey===k ? sortDir*=-1 : (sortKey=k, sortDir=1);
   // update header highlights
@@ -941,7 +941,7 @@ function doSort(k){
   renderAll();
 }
 
-// ── RENDER VENCIMENTO ─────────────────────────────────────────
+// â”€â”€ RENDER VENCIMENTO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderVenc(){
   const q=(document.getElementById('sv').value||'').toLowerCase();
   const f=document.getElementById('fv').value;
@@ -970,23 +970,23 @@ function renderVenc(){
 
   rows.forEach((c,i)=>{
     const days=diff(c.vencDate), st=stVenc(days);
-    const dChip = days===null ? '<span class="days grey">—</span>'
-      : `<span class="days ${st.d}">${days<0?Math.abs(days)+'d atrás':days===0?'Hoje!':days+'d'}</span>`;
+    const dChip = days===null ? '<span class="days grey">â€”</span>'
+      : `<span class="days ${st.d}">${days<0?Math.abs(days)+'d atrÃ¡s':days===0?'Hoje!':days+'d'}</span>`;
     const tr=document.createElement('tr');
     tr.style.animationDelay=(i*25)+'ms';
     tr.classList.add(); // no class needed, CSS handles tbody tr
     tr.innerHTML=`
       <td class="cb-cell"><div class="cb-wrap"><input type="checkbox" class="row-cb" data-id="${c.id}" data-tab="venc" onchange="onRowCheck(this,'venc')"/></div></td>
       <td class="td-name">${esc(c.client)}</td>
-      <td class="td-cnpj">${esc(c.cnpj||'—')}</td>
-      <td class="td-num">${esc(c.contrato||'—')}</td>
+      <td class="td-cnpj">${esc(c.cnpj||'â€”')}</td>
+      <td class="td-num">${esc(c.contrato||'â€”')}</td>
       <td>${fmtD(c.vencDate)}</td>
       <td><span class="pill ${st.p}"><span class="pdot"></span>${st.l}</span></td>
       <td>${dChip}</td>
-      <td class="td-obs" title="${esc(c.obs||'')}">${esc(c.obs||'—')}</td>
+      <td class="td-obs" title="${esc(c.obs||'')}">${esc(c.obs||'â€”')}</td>
       <td><div class="acts">
-        <button class="ibtn" onclick="openEdit('${c.id}')" title="Editar">✏️</button>
-        <button class="ibtn del" onclick="delC('${c.id}')" title="Excluir">✕</button>
+        <button class="ibtn" onclick="openEdit('${c.id}')" title="Editar">âœï¸</button>
+        <button class="ibtn del" onclick="delC('${c.id}')" title="Excluir">âœ•</button>
       </div></td>`;
     tbody.appendChild(tr);
   });
@@ -997,8 +997,8 @@ function renderVenc(){
     if(d<0)exp++; else if(d<=30)crit++; else if(d<=60)warn++; else ok++; });
   document.getElementById('kpis-venc').innerHTML=kpiHTML([
     {cls:'red',lbl:'Vencidos',val:exp,desc:'contratos',delay:0},
-    {cls:'red',lbl:'Crítico ≤30d',val:crit,desc:'contratos',delay:60},
-    {cls:'amber',lbl:'Atenção 31–60d',val:warn,desc:'contratos',delay:120},
+    {cls:'red',lbl:'CrÃ­tico â‰¤30d',val:crit,desc:'contratos',delay:60},
+    {cls:'amber',lbl:'AtenÃ§Ã£o 31â€“60d',val:warn,desc:'contratos',delay:120},
     {cls:'green',lbl:'Em dia',val:ok,desc:'contratos',delay:180},
     {cls:'blue',lbl:'Total geral',val:db.length,desc:'cadastrados',delay:240},
   ]);
@@ -1007,7 +1007,7 @@ function renderVenc(){
   bv.textContent=alert||db.length; bv.className='badge '+(alert?'red':db.length?'blue':'');
 }
 
-// ── RENDER REAJUSTE ───────────────────────────────────────────
+// â”€â”€ RENDER REAJUSTE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderReaj(){
   const q=(document.getElementById('sr').value||'').toLowerCase();
   const f=document.getElementById('fr').value;
@@ -1039,15 +1039,15 @@ function renderReaj(){
     tr.innerHTML=`
       <td class="cb-cell"><div class="cb-wrap"><input type="checkbox" class="row-cb" data-id="${c.id}" data-tab="reaj" onchange="onRowCheck(this,'reaj')"/></div></td>
       <td class="td-name">${esc(c.client)}</td>
-      <td class="td-cnpj">${esc(c.cnpj||'—')}</td>
-      <td class="td-num">${esc(c.contrato||'—')}</td>
+      <td class="td-cnpj">${esc(c.cnpj||'â€”')}</td>
+      <td class="td-num">${esc(c.contrato||'â€”')}</td>
       <td>${fmtD(c.anivDate)}</td>
       <td>${fmtD(nx)}</td>
       <td><span class="pill ${st.p}"><span class="pdot"></span>${st.l}</span></td>
-      <td class="td-obs" title="${esc(c.obs||'')}">${esc(c.obs||'—')}</td>
+      <td class="td-obs" title="${esc(c.obs||'')}">${esc(c.obs||'â€”')}</td>
       <td><div class="acts">
-        <button class="ibtn" onclick="openEdit('${c.id}')" title="Editar">✏️</button>
-        <button class="ibtn del" onclick="delC('${c.id}')" title="Excluir">✕</button>
+        <button class="ibtn" onclick="openEdit('${c.id}')" title="Editar">âœï¸</button>
+        <button class="ibtn del" onclick="delC('${c.id}')" title="Excluir">âœ•</button>
       </div></td>`;
     tbody.appendChild(tr);
   });
@@ -1057,7 +1057,7 @@ function renderReaj(){
     if(st.lv==='danger')pend++; else if(st.lv==='warn')near++; else if(st.lv==='ok')ok++; });
   document.getElementById('kpis-reaj').innerHTML=kpiHTML([
     {cls:'red',lbl:'Reajuste pendente',val:pend,desc:'contratos',delay:0},
-    {cls:'amber',lbl:'Aniversário ≤30d',val:near,desc:'contratos',delay:60},
+    {cls:'amber',lbl:'AniversÃ¡rio â‰¤30d',val:near,desc:'contratos',delay:60},
     {cls:'green',lbl:'Em dia',val:ok,desc:'contratos',delay:120},
     {cls:'blue',lbl:'Total geral',val:db.length,desc:'cadastrados',delay:180},
   ]);
@@ -1077,7 +1077,7 @@ function kpiHTML(items){
 
 function renderAll(){ renderVenc(); renderReaj(); }
 
-// ── SELECTION & BULK DELETE ───────────────────────────────────
+// â”€â”€ SELECTION & BULK DELETE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let selectedIds = new Set();
 
 function onRowCheck(cb, tab){
@@ -1146,10 +1146,10 @@ function deleteSelected(tab){
   toDelete.forEach(id=>selectedIds.delete(id));
   db = db.filter(c=>!toDelete.includes(c.id));
   saveDB(); renderAll();
-  showToast(`${toDelete.length} contrato(s) excluído(s).`, 'ok');
+  showToast(`${toDelete.length} contrato(s) excluÃ­do(s).`, 'ok');
 }
 
-// Restaurar estado de seleção após re-render
+// Restaurar estado de seleÃ§Ã£o apÃ³s re-render
 const _origRenderAll = renderAll;
 // Override renderAll to restore selections
 (function(){
@@ -1169,7 +1169,7 @@ const _origRenderAll = renderAll;
   };
 })();
 
-// ── OVERLAY ───────────────────────────────────────────────────
+// â”€â”€ OVERLAY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function openOv(id){ document.getElementById(id).classList.add('open'); }
 function closeOv(id){ document.getElementById(id).classList.remove('open'); }
 document.querySelectorAll('.overlay').forEach(o=>{
@@ -1177,7 +1177,7 @@ document.querySelectorAll('.overlay').forEach(o=>{
 });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.overlay.open').forEach(o=>o.classList.remove('open')); });
 
-// ── ADD / EDIT ────────────────────────────────────────────────
+// â”€â”€ ADD / EDIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function openAdd(){
   editId=null;
   document.getElementById('add-title').textContent='Novo Contrato';
@@ -1213,26 +1213,26 @@ function saveContract(){
   if(editId){ const i=db.findIndex(x=>x.id===editId); if(i!==-1) db[i]={...db[i],...obj}; }
   else db.push({id:uid(),...obj});
   saveDB(); closeOv('ov-add'); renderAll();
-  showToast(editId?'Contrato atualizado ✓':'Contrato adicionado ✓','ok');
+  showToast(editId?'Contrato atualizado âœ“':'Contrato adicionado âœ“','ok');
 }
 function delC(id){
   if(!confirm('Excluir este contrato?')) return;
   db=db.filter(c=>c.id!==id); saveDB(); renderAll();
-  showToast('Contrato excluído.','ok');
+  showToast('Contrato excluÃ­do.','ok');
 }
 
-// ── IMPORT ────────────────────────────────────────────────────
+// â”€â”€ IMPORT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function openImport(){ openOv('ov-imp'); }
 function onDrop(e){ e.preventDefault(); document.getElementById('dz').classList.remove('drag'); const f=e.dataTransfer.files[0]; if(f) procFile(f); }
 function onFSel(e){ const f=e.target.files[0]; if(f) procFile(f); e.target.value=''; }
 
 const COLS={
-  client:['cliente','client','nome','razão social','razao social'],
+  client:['cliente','client','nome','razÃ£o social','razao social'],
   cnpj:['cnpj','cpf/cnpj','cpf'],
-  contrato:['contrato','nº contrato','numero contrato','contract','num contrato'],
-  aniv:['aniv. reajuste','aniversario','aniversário','aniv reajuste','reajuste','aniv.'],
+  contrato:['contrato','nÂº contrato','numero contrato','contract','num contrato'],
+  aniv:['aniv. reajuste','aniversario','aniversÃ¡rio','aniv reajuste','reajuste','aniv.'],
   venc:['vencimento','venc','expiry','data vencimento','data de vencimento'],
-  obs:['obs','observacao','observação','observações','observacoes','notas','notes'],
+  obs:['obs','observacao','observaÃ§Ã£o','observaÃ§Ãµes','observacoes','notas','notes'],
 };
 function findCol(row,key){
   const aliases=COLS[key], keys=Object.keys(row);
@@ -1273,7 +1273,7 @@ function importRows(rows){
   showToast(`${added} contrato(s) importado(s)!`,'ok');
 }
 
-// ── EXPORT ────────────────────────────────────────────────────
+// â”€â”€ EXPORT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function doExport(){
   if(!db.length){ showToast('Nenhum contrato para exportar.','err'); return; }
   const data=db.map(c=>({
@@ -1281,7 +1281,7 @@ function doExport(){
     'Aniv. Reajuste':fmtD(c.anivDate), 'Vencimento':fmtD(c.vencDate),
     'Status Vencimento':stVenc(diff(c.vencDate)).l,
     'Status Reajuste':stReaj(diff(nextAniv(c.anivDate))).l,
-    'Observações':c.obs||'',
+    'ObservaÃ§Ãµes':c.obs||'',
   }));
   const ws=XLSX.utils.json_to_sheet(data);
   ws['!cols']=[{wch:32},{wch:20},{wch:16},{wch:18},{wch:16},{wch:22},{wch:22},{wch:40}];
@@ -1291,7 +1291,7 @@ function doExport(){
   showToast('Planilha exportada com sucesso!','ok');
 }
 
-// ── LOGO ──────────────────────────────────────────────────────
+// â”€â”€ LOGO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function swapLogo(e){
   const file=e.target.files[0]; if(!file) return;
   const r=new FileReader();
@@ -1312,11 +1312,11 @@ function swapLogo(e){
   }
 })();
 
-// ── TOAST ─────────────────────────────────────────────────────
+// â”€â”€ TOAST â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let toastT;
 function showToast(msg,type='ok'){
   const el=document.getElementById('toast');
-  document.getElementById('t-ico').textContent=type==='ok'?'✅':'⚠️';
+  document.getElementById('t-ico').textContent=type==='ok'?'âœ…':'âš ï¸';
   document.getElementById('t-msg').textContent=msg;
   el.className='toast show '+(type==='ok'?'ok':'err');
   clearTimeout(toastT);
@@ -1324,7 +1324,7 @@ function showToast(msg,type='ok'){
 }
 
 
-// ── JSONBIN SYNC ─────────────────────────────────────────────
+// â”€â”€ JSONBIN SYNC â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let JSONBIN_BIN_ID  = localStorage.getItem('gmt_bin_id')  || '';
 let JSONBIN_API_KEY = localStorage.getItem('gmt_api_key') || '';
 let syncEnabled = !!(JSONBIN_BIN_ID && JSONBIN_API_KEY);
@@ -1383,11 +1383,11 @@ async function pullFromBin(){
 function setSyncStatus(st){
   const el=document.getElementById('sync-status'); if(!el) return;
   const m={
-    off: {ico:'🔴',txt:'Sync off'},
-    ok:  {ico:'🟢',txt:'Sincronizado'},
-    syncing:{ico:'🔄',txt:'Sincronizando…'},
-    err: {ico:'🟡',txt:'Erro de sync'}
-  }[st]||{ico:'🔴',txt:'Sync off'};
+    off: {ico:'ðŸ”´',txt:'Sync off'},
+    ok:  {ico:'ðŸŸ¢',txt:'Sincronizado'},
+    syncing:{ico:'ðŸ”„',txt:'Sincronizandoâ€¦'},
+    err: {ico:'ðŸŸ¡',txt:'Erro de sync'}
+  }[st]||{ico:'ðŸ”´',txt:'Sync off'};
   el.innerHTML=`<span class="sync-ico">${m.ico}</span><span>${m.txt}</span>`;
   el.className='sync-pill'+(st==='syncing'?' syncing':st==='ok'?' ok':st==='err'?' err':'');
 }
@@ -1406,7 +1406,7 @@ function saveSyncConfig(){
   JSONBIN_BIN_ID=bid; JSONBIN_API_KEY=key; syncEnabled=true;
   localStorage.setItem('gmt_bin_id',bid); localStorage.setItem('gmt_api_key',key);
   closeOv('ov-sync'); startSync();
-  showToast('Sync configurado! Conectando…','ok');
+  showToast('Sync configurado! Conectandoâ€¦','ok');
 }
 
 function clearSyncConfig(){
@@ -1444,11 +1444,11 @@ saveDB = function(){
   if(syncEnabled) setTimeout(pushToBin, 600);
 };
 
-// ══════════════════════════════════════════════════════
-// NOVAS ABAS – Estoque / O.S. / Fornecedores / Clientes
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// NOVAS ABAS â€“ Estoque / O.S. / Fornecedores / Clientes
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-// --- Dados em memória (persistidos no localStorage) ---
+// --- Dados em memÃ³ria (persistidos no localStorage) ---
 const EXTRA_KEYS = {estoque:'gm_estoque', os:'gm_os', forn:'gm_forn', cli:'gm_cli'};
 const extraDB = {estoque:[], os:[], forn:[], cli:[]};
 const selectedExtra = {estoque:new Set(), os:new Set(), forn:new Set(), cli:new Set()};
@@ -1465,73 +1465,73 @@ function saveExtraDB(tab){
 }
 loadExtraDB();
 
-// --- Configurações de cada aba ---
+// --- ConfiguraÃ§Ãµes de cada aba ---
 const EXTRA_CFG = {
   estoque:{
     title:'Estoque',
     fields:[
-      {k:'codigo',  l:'Código',         t:'text',   ph:'EQ-001', req:true},
-      {k:'nome',    l:'Produto / Descrição', t:'text', ph:'Nome do produto', req:true},
+      {k:'codigo',  l:'CÃ³digo',         t:'text',   ph:'EQ-001', req:true},
+      {k:'nome',    l:'Produto / DescriÃ§Ã£o', t:'text', ph:'Nome do produto', req:true},
       {k:'cat',     l:'Categoria',      t:'text',   ph:'Ex: Roteador, Cabo...'},
       {k:'qtd',     l:'Quantidade',     t:'number', ph:'0'},
-      {k:'qtdMin',  l:'Qtd. Mínima',   t:'number', ph:'0'},
-      {k:'local',   l:'Localização',   t:'text',   ph:'Ex: Prateleira A3'},
-      {k:'obs',     l:'Observações',   t:'textarea',ph:''},
+      {k:'qtdMin',  l:'Qtd. MÃ­nima',   t:'number', ph:'0'},
+      {k:'local',   l:'LocalizaÃ§Ã£o',   t:'text',   ph:'Ex: Prateleira A3'},
+      {k:'obs',     l:'ObservaÃ§Ãµes',   t:'textarea',ph:''},
     ],
     cols:['codigo','nome','cat','qtd','qtdMin','local','obs'],
-    heads:['Código','Produto / Descrição','Categoria','Qtd.','Qtd. Mínima','Localização','Observações'],
+    heads:['CÃ³digo','Produto / DescriÃ§Ã£o','Categoria','Qtd.','Qtd. MÃ­nima','LocalizaÃ§Ã£o','ObservaÃ§Ãµes'],
     badge:'be',
     rowClass:(r)=> r.qtd!==undefined && r.qtdMin!==undefined && Number(r.qtd)<=Number(r.qtdMin) ? 'danger' : '',
   },
   os:{
-    title:'Ordem de Serviço',
+    title:'Ordem de ServiÃ§o',
     fields:[
-      {k:'num',     l:'Nº O.S.',        t:'text',   ph:'OS-2025-001', req:true},
+      {k:'num',     l:'NÂº O.S.',        t:'text',   ph:'OS-2025-001', req:true},
       {k:'client',  l:'Cliente',        t:'text',   ph:'Nome do cliente', req:true},
-      {k:'tecnico', l:'Técnico',        t:'text',   ph:'Responsável'},
+      {k:'tecnico', l:'TÃ©cnico',        t:'text',   ph:'ResponsÃ¡vel'},
       {k:'abertura',l:'Data Abertura',  t:'date',   ph:''},
-      {k:'previsao',l:'Previsão Entrega',t:'date',  ph:''},
-      {k:'status',  l:'Status',         t:'select', opts:['Aberta','Em andamento','Aguardando peça','Concluída','Cancelada']},
-      {k:'desc',    l:'Descrição',      t:'textarea',ph:'Descreva o problema...'},
+      {k:'previsao',l:'PrevisÃ£o Entrega',t:'date',  ph:''},
+      {k:'status',  l:'Status',         t:'select', opts:['Aberta','Em andamento','Aguardando peÃ§a','ConcluÃ­da','Cancelada']},
+      {k:'desc',    l:'DescriÃ§Ã£o',      t:'textarea',ph:'Descreva o problema...'},
     ],
     cols:['num','client','tecnico','abertura','previsao','status','desc'],
-    heads:['Nº O.S.','Cliente','Técnico','Abertura','Previsão','Status','Descrição'],
+    heads:['NÂº O.S.','Cliente','TÃ©cnico','Abertura','PrevisÃ£o','Status','DescriÃ§Ã£o'],
     badge:'bos',
-    rowClass:(r)=> r.status==='Concluída' ? 'done' : r.status==='Cancelada' ? 'cancel' : '',
+    rowClass:(r)=> r.status==='ConcluÃ­da' ? 'done' : r.status==='Cancelada' ? 'cancel' : '',
   },
   forn:{
     title:'Fornecedor',
     fields:[
-      {k:'nome',    l:'Fornecedor',     t:'text',   ph:'Razão social', req:true},
+      {k:'nome',    l:'Fornecedor',     t:'text',   ph:'RazÃ£o social', req:true},
       {k:'cnpj',    l:'CNPJ',           t:'text',   ph:'00.000.000/0000-00'},
-      {k:'contato', l:'Contato',        t:'text',   ph:'Nome do responsável'},
+      {k:'contato', l:'Contato',        t:'text',   ph:'Nome do responsÃ¡vel'},
       {k:'tel',     l:'Telefone',       t:'text',   ph:'(00) 00000-0000'},
       {k:'email',   l:'E-mail',         t:'text',   ph:'email@fornecedor.com'},
-      {k:'cat',     l:'Categoria',      t:'text',   ph:'Ex: Equipamentos, Serviços...'},
-      {k:'obs',     l:'Observações',   t:'textarea',ph:''},
+      {k:'cat',     l:'Categoria',      t:'text',   ph:'Ex: Equipamentos, ServiÃ§os...'},
+      {k:'obs',     l:'ObservaÃ§Ãµes',   t:'textarea',ph:''},
     ],
     cols:['nome','cnpj','contato','tel','email','cat','obs'],
-    heads:['Fornecedor','CNPJ','Contato','Telefone','E-mail','Categoria','Observações'],
+    heads:['Fornecedor','CNPJ','Contato','Telefone','E-mail','Categoria','ObservaÃ§Ãµes'],
     badge:'bf',
   },
   cli:{
     title:'Cliente',
     fields:[
-      {k:'nome',    l:'Cliente',        t:'text',   ph:'Razão social / Nome', req:true},
+      {k:'nome',    l:'Cliente',        t:'text',   ph:'RazÃ£o social / Nome', req:true},
       {k:'doc',     l:'CNPJ / CPF',     t:'text',   ph:'00.000.000/0000-00'},
-      {k:'contato', l:'Contato',        t:'text',   ph:'Nome do responsável'},
+      {k:'contato', l:'Contato',        t:'text',   ph:'Nome do responsÃ¡vel'},
       {k:'tel',     l:'Telefone',       t:'text',   ph:'(00) 00000-0000'},
       {k:'email',   l:'E-mail',         t:'text',   ph:'email@cliente.com'},
-      {k:'cidade',  l:'Cidade / UF',    t:'text',   ph:'Ex: São Paulo / SP'},
-      {k:'obs',     l:'Observações',   t:'textarea',ph:''},
+      {k:'cidade',  l:'Cidade / UF',    t:'text',   ph:'Ex: SÃ£o Paulo / SP'},
+      {k:'obs',     l:'ObservaÃ§Ãµes',   t:'textarea',ph:''},
     ],
     cols:['nome','doc','contato','tel','email','cidade','obs'],
-    heads:['Cliente','CNPJ / CPF','Contato','Telefone','E-mail','Cidade / UF','Observações'],
+    heads:['Cliente','CNPJ / CPF','Contato','Telefone','E-mail','Cidade / UF','ObservaÃ§Ãµes'],
     badge:'bc',
   },
 };
 
-// --- Render genérico ---
+// --- Render genÃ©rico ---
 function renderExtra(tab){
   const cfg = EXTRA_CFG[tab];
   const q = (document.getElementById('q-'+tab)||{value:''}).value.toLowerCase();
@@ -1553,10 +1553,10 @@ function renderExtra(tab){
     if(selectedExtra[tab].has(r.id)) tr.classList.add('selected');
     tr.innerHTML=`
       <td class="cb-cell"><div class="cb-wrap"><input type="checkbox" class="row-cb" data-id="${r.id}" onchange="onRowCheckExtra(this,'${tab}')"/></div></td>
-      ${cfg.cols.map(k=>`<td class="td-obs" title="${esc(r[k]||'')}">${esc(r[k]||'—')}</td>`).join('')}
+      ${cfg.cols.map(k=>`<td class="td-obs" title="${esc(r[k]||'')}">${esc(r[k]||'â€”')}</td>`).join('')}
       <td><div class="acts">
-        <button class="ibtn" onclick="openEditExtra('${tab}','${r.id}')" title="Editar">✏️</button>
-        <button class="ibtn del" onclick="delExtra('${tab}','${r.id}')" title="Excluir">✕</button>
+        <button class="ibtn" onclick="openEditExtra('${tab}','${r.id}')" title="Editar">âœï¸</button>
+        <button class="ibtn del" onclick="delExtra('${tab}','${r.id}')" title="Excluir">âœ•</button>
       </div></td>`;
     // restore checkbox state
     if(selectedExtra[tab].has(r.id)) tr.querySelector('.row-cb').checked=true;
@@ -1608,7 +1608,7 @@ function saveExtra(){
     if(f.req && !obj[f.k]){ el.style.borderColor='var(--danger)'; valid=false; }
     else if(el) el.style.borderColor='';
   });
-  if(!valid){ showToast('Preencha os campos obrigatórios.','warn'); return; }
+  if(!valid){ showToast('Preencha os campos obrigatÃ³rios.','warn'); return; }
   if(extraEditId){ const i=extraDB[tab].findIndex(x=>x.id===extraEditId); if(i>=0) extraDB[tab][i]=obj; }
   else extraDB[tab].push(obj);
   saveExtraDB(tab);
@@ -1622,10 +1622,10 @@ function delExtra(tab, id){
   selectedExtra[tab].delete(id);
   saveExtraDB(tab);
   renderExtra(tab);
-  showToast('Registro excluído.','ok');
+  showToast('Registro excluÃ­do.','ok');
 }
 
-// --- Seleção em lote ---
+// --- SeleÃ§Ã£o em lote ---
 function onRowCheckExtra(cb, tab){
   const id=cb.dataset.id, tr=cb.closest('tr');
   if(cb.checked){ selectedExtra[tab].add(id); tr.classList.add('selected'); }
@@ -1671,10 +1671,10 @@ function deleteSelectedExtra(tab){
   extraDB[tab]=extraDB[tab].filter(r=>!toDel.includes(r.id));
   saveExtraDB(tab);
   renderExtra(tab);
-  showToast(`${toDel.length} registro(s) excluído(s).`,'ok');
+  showToast(`${toDel.length} registro(s) excluÃ­do(s).`,'ok');
 }
 
-// ── INIT ──
+// â”€â”€ INIT â”€â”€
 renderAll();
 startSync();
 // Init badges for new tabs
