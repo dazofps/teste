@@ -472,6 +472,26 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
     Aniversário / Reajuste
     <span class="badge" id="br">0</span>
   </button>
+  <button class="tab" id="tab-estoque" onclick="switchTab('estoque')">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Estoque
+    <span class="badge" id="be">0</span>
+  </button>
+  <button class="tab" id="tab-os" onclick="switchTab('os')">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    Ordens de Serviço
+    <span class="badge" id="bos">0</span>
+  </button>
+  <button class="tab" id="tab-forn" onclick="switchTab('forn')">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    Fornecedores
+    <span class="badge" id="bf">0</span>
+  </button>
+  <button class="tab" id="tab-cli" onclick="switchTab('cli')">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    Clientes
+    <span class="badge" id="bc">0</span>
+  </button>
 </div>
 
 <main>
@@ -576,6 +596,168 @@ header{padding-left:max(32px,env(safe-area-inset-left));padding-right:max(32px,e
   </div>
 
 </main>
+
+  <!-- ══ ESTOQUE ══ -->
+  <div class="tab-section" id="sec-estoque">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="q-estoque" class="search" placeholder="Buscar produto, código..." oninput="renderEstoque()"/>
+      </div>
+    </div>
+    <div class="bulk-bar" id="bulk-estoque">
+      <span class="bulk-count" id="bulk-estoque-count">0 selecionados</span>
+      <button class="btn btn-ghost" onclick="clearSelectionExtra('estoque')" style="padding:6px 12px;font-size:12px">Limpar</button>
+      <button class="btn" onclick="deleteSelectedExtra('estoque')" style="background:var(--danger-bg);color:var(--danger);border:1px solid rgba(239,68,68,.3);padding:6px 14px;font-size:12px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        Excluir
+      </button>
+    </div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="tbl-estoque">
+          <thead><tr>
+            <th class="cb-cell"><input type="checkbox" id="chk-all-estoque" onchange="toggleAllExtra(this,'estoque')" title="Selecionar todos"/></th>
+            <th>Código</th><th>Produto / Descrição</th><th>Categoria</th>
+            <th>Qtd.</th><th>Qtd. Mínima</th><th>Localização</th><th>Observações</th><th></th>
+          </tr></thead>
+          <tbody id="body-estoque"></tbody>
+        </table>
+      </div>
+      <div id="empty-estoque" class="empty" style="display:none">
+        <div class="empty-ico">📦</div>
+        <div class="empty-title">Nenhum item no estoque</div>
+        <div class="empty-sub">Adicione itens clicando no botão abaixo.</div>
+      </div>
+    </div>
+    <button class="fab" onclick="openAddExtra('estoque')" title="Adicionar item">＋</button>
+  </div>
+
+  <!-- ══ ORDENS DE SERVIÇO ══ -->
+  <div class="tab-section" id="sec-os">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="q-os" class="search" placeholder="Buscar O.S., cliente, técnico..." oninput="renderOS()"/>
+      </div>
+    </div>
+    <div class="bulk-bar" id="bulk-os">
+      <span class="bulk-count" id="bulk-os-count">0 selecionados</span>
+      <button class="btn btn-ghost" onclick="clearSelectionExtra('os')" style="padding:6px 12px;font-size:12px">Limpar</button>
+      <button class="btn" onclick="deleteSelectedExtra('os')" style="background:var(--danger-bg);color:var(--danger);border:1px solid rgba(239,68,68,.3);padding:6px 14px;font-size:12px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        Excluir
+      </button>
+    </div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="tbl-os">
+          <thead><tr>
+            <th class="cb-cell"><input type="checkbox" id="chk-all-os" onchange="toggleAllExtra(this,'os')" title="Selecionar todos"/></th>
+            <th>Nº O.S.</th><th>Cliente</th><th>Técnico</th>
+            <th>Abertura</th><th>Previsão</th><th>Status</th><th>Descrição</th><th></th>
+          </tr></thead>
+          <tbody id="body-os"></tbody>
+        </table>
+      </div>
+      <div id="empty-os" class="empty" style="display:none">
+        <div class="empty-ico">🔧</div>
+        <div class="empty-title">Nenhuma ordem de serviço</div>
+        <div class="empty-sub">Adicione uma O.S. clicando no botão abaixo.</div>
+      </div>
+    </div>
+    <button class="fab" onclick="openAddExtra('os')" title="Nova O.S.">＋</button>
+  </div>
+
+  <!-- ══ FORNECEDORES ══ -->
+  <div class="tab-section" id="sec-forn">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="q-forn" class="search" placeholder="Buscar fornecedor, CNPJ..." oninput="renderForn()"/>
+      </div>
+    </div>
+    <div class="bulk-bar" id="bulk-forn">
+      <span class="bulk-count" id="bulk-forn-count">0 selecionados</span>
+      <button class="btn btn-ghost" onclick="clearSelectionExtra('forn')" style="padding:6px 12px;font-size:12px">Limpar</button>
+      <button class="btn" onclick="deleteSelectedExtra('forn')" style="background:var(--danger-bg);color:var(--danger);border:1px solid rgba(239,68,68,.3);padding:6px 14px;font-size:12px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        Excluir
+      </button>
+    </div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="tbl-forn">
+          <thead><tr>
+            <th class="cb-cell"><input type="checkbox" id="chk-all-forn" onchange="toggleAllExtra(this,'forn')" title="Selecionar todos"/></th>
+            <th>Fornecedor</th><th>CNPJ</th><th>Contato</th>
+            <th>Telefone</th><th>E-mail</th><th>Categoria</th><th>Observações</th><th></th>
+          </tr></thead>
+          <tbody id="body-forn"></tbody>
+        </table>
+      </div>
+      <div id="empty-forn" class="empty" style="display:none">
+        <div class="empty-ico">🚚</div>
+        <div class="empty-title">Nenhum fornecedor cadastrado</div>
+        <div class="empty-sub">Adicione fornecedores clicando no botão abaixo.</div>
+      </div>
+    </div>
+    <button class="fab" onclick="openAddExtra('forn')" title="Adicionar fornecedor">＋</button>
+  </div>
+
+  <!-- ══ CLIENTES ══ -->
+  <div class="tab-section" id="sec-cli">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="q-cli" class="search" placeholder="Buscar cliente, CNPJ, contato..." oninput="renderCli()"/>
+      </div>
+    </div>
+    <div class="bulk-bar" id="bulk-cli">
+      <span class="bulk-count" id="bulk-cli-count">0 selecionados</span>
+      <button class="btn btn-ghost" onclick="clearSelectionExtra('cli')" style="padding:6px 12px;font-size:12px">Limpar</button>
+      <button class="btn" onclick="deleteSelectedExtra('cli')" style="background:var(--danger-bg);color:var(--danger);border:1px solid rgba(239,68,68,.3);padding:6px 14px;font-size:12px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        Excluir
+      </button>
+    </div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table id="tbl-cli">
+          <thead><tr>
+            <th class="cb-cell"><input type="checkbox" id="chk-all-cli" onchange="toggleAllExtra(this,'cli')" title="Selecionar todos"/></th>
+            <th>Cliente</th><th>CNPJ / CPF</th><th>Contato</th>
+            <th>Telefone</th><th>E-mail</th><th>Cidade / UF</th><th>Observações</th><th></th>
+          </tr></thead>
+          <tbody id="body-cli"></tbody>
+        </table>
+      </div>
+      <div id="empty-cli" class="empty" style="display:none">
+        <div class="empty-ico">👥</div>
+        <div class="empty-title">Nenhum cliente cadastrado</div>
+        <div class="empty-sub">Adicione clientes clicando no botão abaixo.</div>
+      </div>
+    </div>
+    <button class="fab" onclick="openAddExtra('cli')" title="Adicionar cliente">＋</button>
+  </div>
+
+<!-- MODAL GENÉRICO DAS NOVAS ABAS -->
+<div class="overlay" id="ov-extra">
+  <div class="modal" style="max-width:540px">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="extra-modal-title">Adicionar</div>
+        <div class="modal-sub" id="extra-modal-sub"></div>
+      </div>
+      <button class="mclose" onclick="closeOv('ov-extra')">✕</button>
+    </div>
+    <div class="modal-body" id="extra-modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeOv('ov-extra')">Cancelar</button>
+      <button class="btn" onclick="saveExtra()">Salvar</button>
+    </div>
+  </div>
+</div>
 
 
 <!-- MODAL SYNC CONFIG -->
@@ -746,6 +928,7 @@ function switchTab(t){
   const s=document.getElementById('sec-'+t);
   s.classList.add('active');
   void s.offsetWidth; // reflow to re-trigger animation
+  if(['estoque','os','forn','cli'].includes(t)) renderExtra(t);
 }
 
 // ── SORT ──────────────────────────────────────────────────────
@@ -1261,9 +1444,244 @@ saveDB = function(){
   if(syncEnabled) setTimeout(pushToBin, 600);
 };
 
+// ══════════════════════════════════════════════════════
+// NOVAS ABAS – Estoque / O.S. / Fornecedores / Clientes
+// ══════════════════════════════════════════════════════
+
+// --- Dados em memória (persistidos no localStorage) ---
+const EXTRA_KEYS = {estoque:'gm_estoque', os:'gm_os', forn:'gm_forn', cli:'gm_cli'};
+const extraDB = {estoque:[], os:[], forn:[], cli:[]};
+const selectedExtra = {estoque:new Set(), os:new Set(), forn:new Set(), cli:new Set()};
+let extraEditId = null;
+let extraCurrentTab = null;
+
+function loadExtraDB(){
+  Object.keys(EXTRA_KEYS).forEach(tab=>{
+    try{ extraDB[tab] = JSON.parse(localStorage.getItem(EXTRA_KEYS[tab])||'[]'); }catch(e){ extraDB[tab]=[]; }
+  });
+}
+function saveExtraDB(tab){
+  localStorage.setItem(EXTRA_KEYS[tab], JSON.stringify(extraDB[tab]));
+}
+loadExtraDB();
+
+// --- Configurações de cada aba ---
+const EXTRA_CFG = {
+  estoque:{
+    title:'Estoque',
+    fields:[
+      {k:'codigo',  l:'Código',         t:'text',   ph:'EQ-001', req:true},
+      {k:'nome',    l:'Produto / Descrição', t:'text', ph:'Nome do produto', req:true},
+      {k:'cat',     l:'Categoria',      t:'text',   ph:'Ex: Roteador, Cabo...'},
+      {k:'qtd',     l:'Quantidade',     t:'number', ph:'0'},
+      {k:'qtdMin',  l:'Qtd. Mínima',   t:'number', ph:'0'},
+      {k:'local',   l:'Localização',   t:'text',   ph:'Ex: Prateleira A3'},
+      {k:'obs',     l:'Observações',   t:'textarea',ph:''},
+    ],
+    cols:['codigo','nome','cat','qtd','qtdMin','local','obs'],
+    heads:['Código','Produto / Descrição','Categoria','Qtd.','Qtd. Mínima','Localização','Observações'],
+    badge:'be',
+    rowClass:(r)=> r.qtd!==undefined && r.qtdMin!==undefined && Number(r.qtd)<=Number(r.qtdMin) ? 'danger' : '',
+  },
+  os:{
+    title:'Ordem de Serviço',
+    fields:[
+      {k:'num',     l:'Nº O.S.',        t:'text',   ph:'OS-2025-001', req:true},
+      {k:'client',  l:'Cliente',        t:'text',   ph:'Nome do cliente', req:true},
+      {k:'tecnico', l:'Técnico',        t:'text',   ph:'Responsável'},
+      {k:'abertura',l:'Data Abertura',  t:'date',   ph:''},
+      {k:'previsao',l:'Previsão Entrega',t:'date',  ph:''},
+      {k:'status',  l:'Status',         t:'select', opts:['Aberta','Em andamento','Aguardando peça','Concluída','Cancelada']},
+      {k:'desc',    l:'Descrição',      t:'textarea',ph:'Descreva o problema...'},
+    ],
+    cols:['num','client','tecnico','abertura','previsao','status','desc'],
+    heads:['Nº O.S.','Cliente','Técnico','Abertura','Previsão','Status','Descrição'],
+    badge:'bos',
+    rowClass:(r)=> r.status==='Concluída' ? 'done' : r.status==='Cancelada' ? 'cancel' : '',
+  },
+  forn:{
+    title:'Fornecedor',
+    fields:[
+      {k:'nome',    l:'Fornecedor',     t:'text',   ph:'Razão social', req:true},
+      {k:'cnpj',    l:'CNPJ',           t:'text',   ph:'00.000.000/0000-00'},
+      {k:'contato', l:'Contato',        t:'text',   ph:'Nome do responsável'},
+      {k:'tel',     l:'Telefone',       t:'text',   ph:'(00) 00000-0000'},
+      {k:'email',   l:'E-mail',         t:'text',   ph:'email@fornecedor.com'},
+      {k:'cat',     l:'Categoria',      t:'text',   ph:'Ex: Equipamentos, Serviços...'},
+      {k:'obs',     l:'Observações',   t:'textarea',ph:''},
+    ],
+    cols:['nome','cnpj','contato','tel','email','cat','obs'],
+    heads:['Fornecedor','CNPJ','Contato','Telefone','E-mail','Categoria','Observações'],
+    badge:'bf',
+  },
+  cli:{
+    title:'Cliente',
+    fields:[
+      {k:'nome',    l:'Cliente',        t:'text',   ph:'Razão social / Nome', req:true},
+      {k:'doc',     l:'CNPJ / CPF',     t:'text',   ph:'00.000.000/0000-00'},
+      {k:'contato', l:'Contato',        t:'text',   ph:'Nome do responsável'},
+      {k:'tel',     l:'Telefone',       t:'text',   ph:'(00) 00000-0000'},
+      {k:'email',   l:'E-mail',         t:'text',   ph:'email@cliente.com'},
+      {k:'cidade',  l:'Cidade / UF',    t:'text',   ph:'Ex: São Paulo / SP'},
+      {k:'obs',     l:'Observações',   t:'textarea',ph:''},
+    ],
+    cols:['nome','doc','contato','tel','email','cidade','obs'],
+    heads:['Cliente','CNPJ / CPF','Contato','Telefone','E-mail','Cidade / UF','Observações'],
+    badge:'bc',
+  },
+};
+
+// --- Render genérico ---
+function renderExtra(tab){
+  const cfg = EXTRA_CFG[tab];
+  const q = (document.getElementById('q-'+tab)||{value:''}).value.toLowerCase();
+  const rows = extraDB[tab].filter(r=>
+    cfg.cols.some(k=> String(r[k]||'').toLowerCase().includes(q))
+  );
+  const tbody = document.getElementById('body-'+tab);
+  const empty = document.getElementById('empty-'+tab);
+  tbody.innerHTML='';
+  document.getElementById(cfg.badge).textContent = extraDB[tab].length;
+
+  if(!rows.length){ empty.style.display='flex'; return; }
+  empty.style.display='none';
+
+  rows.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    const rc = cfg.rowClass ? cfg.rowClass(r) : '';
+    if(rc==='done') tr.style.opacity='0.6';
+    if(selectedExtra[tab].has(r.id)) tr.classList.add('selected');
+    tr.innerHTML=`
+      <td class="cb-cell"><div class="cb-wrap"><input type="checkbox" class="row-cb" data-id="${r.id}" onchange="onRowCheckExtra(this,'${tab}')"/></div></td>
+      ${cfg.cols.map(k=>`<td class="td-obs" title="${esc(r[k]||'')}">${esc(r[k]||'—')}</td>`).join('')}
+      <td><div class="acts">
+        <button class="ibtn" onclick="openEditExtra('${tab}','${r.id}')" title="Editar">✏️</button>
+        <button class="ibtn del" onclick="delExtra('${tab}','${r.id}')" title="Excluir">✕</button>
+      </div></td>`;
+    // restore checkbox state
+    if(selectedExtra[tab].has(r.id)) tr.querySelector('.row-cb').checked=true;
+    tbody.appendChild(tr);
+  });
+  syncHeaderCheckboxExtra(tab);
+  updateBulkBarExtra(tab);
+}
+function renderEstoque(){ renderExtra('estoque'); }
+function renderOS(){ renderExtra('os'); }
+function renderForn(){ renderExtra('forn'); }
+function renderCli(){ renderExtra('cli'); }
+
+// --- CRUD ---
+function openAddExtra(tab){
+  extraEditId=null; extraCurrentTab=tab;
+  const cfg=EXTRA_CFG[tab];
+  document.getElementById('extra-modal-title').textContent='Adicionar '+cfg.title;
+  document.getElementById('extra-modal-sub').textContent='';
+  document.getElementById('extra-modal-body').innerHTML=buildForm(cfg.fields, {});
+  openOv('ov-extra');
+}
+function openEditExtra(tab, id){
+  extraCurrentTab=tab; extraEditId=id;
+  const cfg=EXTRA_CFG[tab];
+  const r=extraDB[tab].find(x=>x.id===id)||{};
+  document.getElementById('extra-modal-title').textContent='Editar '+cfg.title;
+  document.getElementById('extra-modal-sub').textContent=r[cfg.fields[0].k]||'';
+  document.getElementById('extra-modal-body').innerHTML=buildForm(cfg.fields, r);
+  openOv('ov-extra');
+}
+function buildForm(fields, data){
+  return fields.map(f=>{
+    const v=esc(data[f.k]||'');
+    if(f.t==='textarea') return `<div class="fg"><label class="fl">${f.l}${f.req?'<span class="req">*</span>':''}</label><textarea class="fi" id="ef-${f.k}" rows="3" placeholder="${f.ph}">${v}</textarea></div>`;
+    if(f.t==='select') return `<div class="fg"><label class="fl">${f.l}</label><select class="fi" id="ef-${f.k}">${(f.opts||[]).map(o=>`<option value="${o}" ${data[f.k]===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
+    return `<div class="fg"><label class="fl">${f.l}${f.req?'<span class="req">*</span>':''}</label><input class="fi" id="ef-${f.k}" type="${f.t}" placeholder="${f.ph}" value="${v}"/></div>`;
+  }).join('');
+}
+function saveExtra(){
+  const tab=extraCurrentTab;
+  const cfg=EXTRA_CFG[tab];
+  const obj={id: extraEditId||('x'+Date.now()+Math.random().toString(36).slice(2))};
+  let valid=true;
+  cfg.fields.forEach(f=>{
+    const el=document.getElementById('ef-'+f.k);
+    if(!el) return;
+    obj[f.k]=el.value.trim();
+    if(f.req && !obj[f.k]){ el.style.borderColor='var(--danger)'; valid=false; }
+    else if(el) el.style.borderColor='';
+  });
+  if(!valid){ showToast('Preencha os campos obrigatórios.','warn'); return; }
+  if(extraEditId){ const i=extraDB[tab].findIndex(x=>x.id===extraEditId); if(i>=0) extraDB[tab][i]=obj; }
+  else extraDB[tab].push(obj);
+  saveExtraDB(tab);
+  renderExtra(tab);
+  closeOv('ov-extra');
+  showToast(extraEditId?'Registro atualizado.':'Registro adicionado.','ok');
+}
+function delExtra(tab, id){
+  if(!confirm('Excluir este registro?')) return;
+  extraDB[tab]=extraDB[tab].filter(x=>x.id!==id);
+  selectedExtra[tab].delete(id);
+  saveExtraDB(tab);
+  renderExtra(tab);
+  showToast('Registro excluído.','ok');
+}
+
+// --- Seleção em lote ---
+function onRowCheckExtra(cb, tab){
+  const id=cb.dataset.id, tr=cb.closest('tr');
+  if(cb.checked){ selectedExtra[tab].add(id); tr.classList.add('selected'); }
+  else{ selectedExtra[tab].delete(id); tr.classList.remove('selected'); }
+  updateBulkBarExtra(tab); syncHeaderCheckboxExtra(tab);
+}
+function toggleAllExtra(masterCb, tab){
+  document.querySelectorAll(`#tbl-${tab} .row-cb`).forEach(cb=>{
+    cb.checked=masterCb.checked;
+    const tr=cb.closest('tr');
+    if(masterCb.checked){ selectedExtra[tab].add(cb.dataset.id); tr.classList.add('selected'); }
+    else{ selectedExtra[tab].delete(cb.dataset.id); tr.classList.remove('selected'); }
+  });
+  updateBulkBarExtra(tab);
+}
+function syncHeaderCheckboxExtra(tab){
+  const all=document.querySelectorAll(`#tbl-${tab} .row-cb`);
+  const chk=document.querySelectorAll(`#tbl-${tab} .row-cb:checked`);
+  const m=document.getElementById(`chk-all-${tab}`);
+  if(!m) return;
+  m.indeterminate=chk.length>0&&chk.length<all.length;
+  m.checked=all.length>0&&chk.length===all.length;
+}
+function updateBulkBarExtra(tab){
+  const vis=new Set([...document.querySelectorAll(`#tbl-${tab} .row-cb`)].map(cb=>cb.dataset.id));
+  const cnt=[...selectedExtra[tab]].filter(id=>vis.has(id)).length;
+  const bar=document.getElementById(`bulk-${tab}`);
+  const cEl=document.getElementById(`bulk-${tab}-count`);
+  if(bar) bar.classList.toggle('visible', cnt>0);
+  if(cEl) cEl.textContent=cnt===1?'1 selecionado':`${cnt} selecionados`;
+}
+function clearSelectionExtra(tab){
+  document.querySelectorAll(`#tbl-${tab} .row-cb`).forEach(cb=>{ selectedExtra[tab].delete(cb.dataset.id); cb.checked=false; cb.closest('tr').classList.remove('selected'); });
+  const m=document.getElementById(`chk-all-${tab}`); if(m){m.checked=false;m.indeterminate=false;}
+  updateBulkBarExtra(tab);
+}
+function deleteSelectedExtra(tab){
+  const vis=new Set([...document.querySelectorAll(`#tbl-${tab} .row-cb`)].map(cb=>cb.dataset.id));
+  const toDel=[...selectedExtra[tab]].filter(id=>vis.has(id));
+  if(!toDel.length) return;
+  if(!confirm(`Excluir ${toDel.length} registro(s)?`)) return;
+  toDel.forEach(id=>selectedExtra[tab].delete(id));
+  extraDB[tab]=extraDB[tab].filter(r=>!toDel.includes(r.id));
+  saveExtraDB(tab);
+  renderExtra(tab);
+  showToast(`${toDel.length} registro(s) excluído(s).`,'ok');
+}
+
 // ── INIT ──
 renderAll();
 startSync();
+// Init badges for new tabs
+['estoque','os','forn','cli'].forEach(tab=>{
+  const cfg=EXTRA_CFG[tab];
+  if(cfg) document.getElementById(cfg.badge).textContent=extraDB[tab].length;
+});
 </script>
 </body>
 </html>
