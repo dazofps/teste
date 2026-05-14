@@ -1,3 +1,16 @@
+Sim, é perfeitamente possível! Para fazer isso, precisamos alterar a lógica do "pacote" que é enviado e recebido do servidor.
+
+Atualmente, o sistema enviava apenas a lista de contratos. Agora, eu modifiquei as funções de sincronização para que elas criem um **objeto global**, contendo Contratos, Clientes, Estoque, Fornecedores e O.S.
+
+**O que foi alterado tecnicamente:**
+1.  **`hashDB`**: Agora ele monitora o tamanho de todas as tabelas. Se você adicionar um cliente, o sistema percebe que a "assinatura" do banco mudou e dispara o upload.
+2.  **`pushToBin`**: Agora empacota `db` (contratos) e todo o `extraDB` (as outras abas) em um único arquivo JSON.
+3.  **`pullFromBin`**: Ao baixar os dados, ele distribui cada lista para sua respectiva aba e atualiza a tela automaticamente.
+4.  **`saveExtraDB`**: Adicionei o gatilho de sincronização. Antes, as abas extras salvavam apenas no navegador; agora, ao salvar, elas também enviam para a nuvem.
+
+Aqui está o código completo e atualizado:
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -740,7 +753,7 @@ header{padding-left:max(24px,env(safe-area-inset-left));padding-right:max(24px,e
       <div style="background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.25);border-radius:8px;padding:13px 15px;margin-bottom:15px;font-size:12px;line-height:1.7;color:var(--text2)">
         <strong style="color:var(--blue2)">Como configurar (grátis):</strong><br>
         1. Acesse <a href="https://jsonbin.io" target="_blank" style="color:var(--blue2)">jsonbin.io</a> → crie conta<br>
-        2. New Bin → cole <code style="color:var(--gold)">{"contracts":[]}</code> → salve<br>
+        2. New Bin → cole <code style="color:var(--gold)">{"contracts":[], "cli":[], "estoque":[], "forn":[], "os":[]}</code> → salve<br>
         3. Copie o <strong style="color:var(--text)">BIN ID</strong> da URL<br>
         4. Em API Keys, crie uma Master Key<br>
         5. Cole abaixo e salve
@@ -1092,7 +1105,7 @@ function importRows(rows){
       db.push({id:uid(),client,cnpj:String(findCol(row,'cnpj')).trim(),contrato,anivDate:parseDate(findCol(row,'aniv')),vencDate:parseDate(findCol(row,'venc')),obs:String(findCol(row,'obs')).trim()});
       added++;
     } else {
-      const tab = target === 'contracts' ? 'contracts' : target;
+      const tab = target;
       const cfg = EXTRA_CFG[tab];
       if(!cfg) return;
       
@@ -1102,7 +1115,6 @@ function importRows(rows){
 
       const newItem = { id: uid() };
       cfg.fields.forEach(f => {
-        // Mapeia a chave do formulário para a chave de busca de coluna
         const lookupKey = (f.k === 'nome' || f.k === 'client') ? 'client' : f.k;
         newItem[f.k] = String(findCol(row, lookupKey)).trim();
       });
@@ -1135,12 +1147,18 @@ function initLogo(){const saved=localStorage.getItem('cd3_logo_gamatel');if(save
 let toastT;
 function showToast(msg,type='ok'){const el=document.getElementById('toast');document.getElementById('t-ico').textContent=type==='ok'?'✅':'⚠️';document.getElementById('t-msg').textContent=msg;el.className='toast show '+(type==='ok'?'ok':'err');clearTimeout(toastT);toastT=setTimeout(()=>{el.className='toast';},3500);}
 
+// ── JSONBIN SYNC (GLOBAL) ───────────────────────────────────────
 let JSONBIN_BIN_ID=localStorage.getItem('gmt_bin_id')||'';
 let JSONBIN_API_KEY=localStorage.getItem('gmt_api_key')||'';
 let syncEnabled=!!(JSONBIN_BIN_ID&&JSONBIN_API_KEY);
 const SYNC_INTERVAL=30000;
 let lastSyncHash='',isSyncing=false,syncTimer=null;
-function hashDB(data){return data.length+'_'+(data[0]?.id||'x');}
+
+// Gera hash baseado no tamanho de TODAS as tabelas
+function hashDB(){ 
+  return db.length + '_' + extraDB.cli.length + '_' + extraDB.estoque.length + '_' + extraDB.forn.length + '_' + extraDB.os.length; 
+}
+
 function setSyncStatus(st){
   const el=document.getElementById('sync-status');if(!el)return;
   const dr=document.getElementById('dr-sync');
@@ -1149,18 +1167,129 @@ function setSyncStatus(st){
   el.className='sync-pill'+(st==='syncing'?' syncing':st==='ok'?' ok':st==='err'?' err':'');
   if(dr)dr.textContent=st==='ok'?'on':st==='syncing'?'…':'off';
 }
-async function pushToBin(){if(!syncEnabled||isSyncing)return;const h=hashDB(db);if(h===lastSyncHash)return;isSyncing=true;setSyncStatus('syncing');try{const r=await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_API_KEY,'X-Bin-Versioning':'false'},body:JSON.stringify({contracts:db.map(serC)})});if(r.ok){lastSyncHash=h;setSyncStatus('ok');}else setSyncStatus('err');}catch(e){setSyncStatus('err');}isSyncing=false;}
-async function pullFromBin(){if(!syncEnabled||isSyncing)return;isSyncing=true;setSyncStatus('syncing');try{const r=await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`,{headers:{'X-Master-Key':JSONBIN_API_KEY}});if(r.ok){const j=await r.json();const remote=(j.record?.contracts||[]).map(deserC);if(j.record?.contracts!==undefined){db=remote;localStorage.setItem('cd3',JSON.stringify(db.map(serC)));renderAll();lastSyncHash=hashDB(db);setSyncStatus('ok');}else setSyncStatus('ok');}else setSyncStatus('err');}catch(e){setSyncStatus('err');}isSyncing=false;}
-function startSync(){if(!syncEnabled){setSyncStatus('off');return;}pullFromBin();if(syncTimer)clearInterval(syncTimer);syncTimer=setInterval(pullFromBin,SYNC_INTERVAL);}
-function saveSyncConfig(){const bid=document.getElementById('sync-bin-id').value.trim();const key=document.getElementById('sync-api-key').value.trim();if(!bid||!key){showToast('Preencha BIN ID e API Key.','err');return;}JSONBIN_BIN_ID=bid;JSONBIN_API_KEY=key;syncEnabled=true;localStorage.setItem('gmt_bin_id',bid);localStorage.setItem('gmt_api_key',key);closeOv('ov-sync');startSync();showToast('Sync ativado!','ok');}
-function clearSyncConfig(){JSONBIN_BIN_ID='';JSONBIN_API_KEY='';syncEnabled=false;localStorage.removeItem('gmt_bin_id');localStorage.removeItem('gmt_api_key');if(syncTimer)clearInterval(syncTimer);closeOv('ov-sync');setSyncStatus('off');showToast('Sync desativado.','ok');}
 
+async function pushToBin(){
+  if(!syncEnabled||isSyncing)return;
+  const h=hashDB();
+  if(h===lastSyncHash)return;
+  
+  isSyncing=true;
+  setSyncStatus('syncing');
+  
+  try {
+    // Envia Contratos + Todas as abas extras
+    const payload = {
+      contracts: db.map(serC),
+      cli: extraDB.cli,
+      estoque: extraDB.estoque,
+      forn: extraDB.forn,
+      os: extraDB.os
+    };
+
+    const r=await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_API_KEY,'X-Bin-Versioning':'false'},
+      body:JSON.stringify(payload)
+    });
+    
+    if(r.ok){
+      lastSyncHash=h;
+      setSyncStatus('ok');
+    }else setSyncStatus('err');
+  } catch(e){
+    setSyncStatus('err');
+  }
+  isSyncing=false;
+}
+
+async function pullFromBin(){
+  if(!syncEnabled||isSyncing)return;
+  isSyncing=true;
+  setSyncStatus('syncing');
+  
+  try {
+    const r=await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`,{
+      headers:{'X-Master-Key':JSONBIN_API_KEY}
+    });
+    
+    if(r.ok){
+      const j=await r.json();
+      const remote = j.record;
+      if(!remote) return;
+
+      // Sincroniza Contratos
+      if(remote.contracts) {
+        db = remote.contracts.map(deserC);
+        localStorage.setItem('cd3', JSON.stringify(db.map(serC)));
+      }
+      
+      // Sincroniza Abas Extras
+      Object.keys(EXTRA_KEYS).forEach(tab => {
+        if(remote[tab]) {
+          extraDB[tab] = remote[tab];
+          localStorage.setItem(EXTRA_KEYS[tab], JSON.stringify(remote[tab]));
+        }
+      });
+
+      renderAll();
+      Object.keys(EXTRA_CFG).forEach(tab => renderExtra(tab));
+      lastSyncHash=hashDB();
+      setSyncStatus('ok');
+    } else setSyncStatus('err');
+  } catch(e){
+    setSyncStatus('err');
+  }
+  isSyncing=false;
+}
+
+function startSync(){
+  if(!syncEnabled){setSyncStatus('off');return;}
+  pullFromBin();
+  if(syncTimer)clearInterval(syncTimer);
+  syncTimer=setInterval(pullFromBin, SYNC_INTERVAL);
+}
+
+function saveSyncConfig(){
+  const bid=document.getElementById('sync-bin-id').value.trim();
+  const key=document.getElementById('sync-api-key').value.trim();
+  if(!bid||!key){showToast('Preencha BIN ID e API Key.','err');return;}
+  JSONBIN_BIN_ID=bid;
+  JSONBIN_API_KEY=key;
+  syncEnabled=true;
+  localStorage.setItem('gmt_bin_id',bid);
+  localStorage.setItem('gmt_api_key',key);
+  closeOv('ov-sync');
+  startSync();
+  showToast('Sincronização Global ativada!','ok');
+}
+
+function clearSyncConfig(){
+  JSONBIN_BIN_ID='';
+  JSONBIN_API_KEY='';
+  syncEnabled=false;
+  localStorage.removeItem('gmt_bin_id');
+  localStorage.removeItem('gmt_api_key');
+  if(syncTimer)clearInterval(syncTimer);
+  closeOv('ov-sync');
+  setSyncStatus('off');
+  showToast('Sync desativado.','ok');
+}
+
+// ── EXTRA TABS ─────────────────────────────────────────────────────
 const EXTRA_KEYS={estoque:'gm_estoque',os:'gm_os',forn:'gm_forn',cli:'gm_cli'};
 const extraDB={estoque:[],os:[],forn:[],cli:[]};
 const selectedExtra={estoque:new Set(),os:new Set(),forn:new Set(),cli:new Set()};
 let extraEditId=null,extraCurrentTab=null;
-function loadExtraDB(){Object.keys(EXTRA_KEYS).forEach(tab=>{try{extraDB[tab]=JSON.parse(localStorage.getItem(EXTRA_KEYS[tab])||'[]');}catch(e){extraDB[tab]=[];}});}
-function saveExtraDB(tab){localStorage.setItem(EXTRA_KEYS[tab],JSON.stringify(extraDB[tab]));}
+
+function loadExtraDB(){
+  Object.keys(EXTRA_KEYS).forEach(tab=>{
+    try{extraDB[tab]=JSON.parse(localStorage.getItem(EXTRA_KEYS[tab])||'[]');}catch(e){extraDB[tab]=[];}
+  });
+}
+function saveExtraDB(tab){
+  localStorage.setItem(EXTRA_KEYS[tab],JSON.stringify(extraDB[tab]));
+  if(syncEnabled) setTimeout(pushToBin, 600); // Agora sincroniza extras também!
+}
 loadExtraDB();
 
 const EXTRA_CFG={
@@ -1219,3 +1348,4 @@ startSync();
 </script>
 </body>
 </html>
+```
